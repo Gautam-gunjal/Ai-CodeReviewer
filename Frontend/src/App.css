@@ -1,0 +1,171 @@
+/* Layout */
+main {
+  display: flex;
+  height: 100vh;
+  background: #1e1e1e;
+  color: #fff;
+  font-family: Inter, sans-serif;
+}
+
+/* Left */
+.left {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  border-right: 2px solid #2c2c2c;
+}
+
+/* Editor container (.code corresponds to your .code div) */
+.code {
+  flex: 1;
+  background: #252526;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+}
+
+/* Review button (you used a div.review) */
+.review {
+  margin-top: 15px;
+  padding: 12px 20px;
+  background: linear-gradient(90deg, #007cf0, #00dfd8);
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: bold;
+  color: #fff;
+  cursor: pointer;
+  text-align: center;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.review:hover {
+  transform: scale(1.03);
+  box-shadow: 0 4px 20px rgba(0, 223, 216, 0.5);
+}
+
+/* Right */
+.right {
+  flex: 1;
+  padding: 20px;
+  overflow-y: auto;
+  background: #1e1e1e;
+}
+
+/* Titles & guidance */
+.panel-header{
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+  margin-bottom:12px;
+}
+
+.app-title{
+  margin:0;
+  font-size:20px;
+  font-weight:800;
+  letter-spacing:.5px;
+  background: linear-gradient(90deg, #00dfd8, #007cf0);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.panel-title{
+  margin:0;
+  font-size:18px;
+  font-weight:700;
+}
+
+.hint{
+  margin:0;
+  font-size:.9rem;
+  color:#a0a0a0;
+}
+
+/* Right panel empty state */
+.empty-state{
+  margin-top:8px;
+  padding:16px;
+  border:1px dashed #2c2c2c;
+  border-radius:8px;
+  color:#c7c7c7;
+  background:#1b1b1b;
+}
+
+
+/* Add this to App.css */
+.spinner {
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #00dfd8;
+  border-radius: 50%;
+  width: 22px;
+  height: 22px;
+  animation: spin 1s linear infinite;
+  display: inline-block;
+  margin-left: 8px;
+  vertical-align: middle;
+}
+
+@keyframes spin {
+  0%   { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+
+}
+/* Responsive Design */
+@media (max-width: 768px) {
+  main {
+    flex-direction: column;   /* stack panels vertically */
+    height: auto;            /* let content define height */
+  }
+
+  .left, .right {
+    flex: none;
+    width: 100%;             /* full width */
+    border-right: none;      /* remove divider */
+    border-bottom: 2px solid #2c2c2c; /* optional divider */
+    padding: 15px;
+  }
+
+  .code {
+    height: 300px;  /* give editor a fixed height on small screens */
+  }
+
+  .review {
+    font-size: 14px;
+    padding: 10px 15px;
+  }
+
+  .app-title {
+    font-size: 18px;
+    text-align: center;
+  }
+
+  .panel-title {
+    font-size: 16px;
+    text-align: center;
+  }
+
+  .hint {
+    font-size: 0.8rem;
+    text-align: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .code {
+    height: 250px; /* smaller editor for very small devices */
+  }
+
+  .review {
+    font-size: 13px;
+    padding: 8px 12px;
+  }
+
+  .app-title {
+    font-size: 16px;
+  }
+}
+
+
+
+
+
