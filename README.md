@@ -8,8 +8,7 @@
 
 - [Overview](#overview)  
 - [Key Features](#key-features)  
-- [Tech Stack](#tech-stack)  
-- [Live Demo / Screenshots](#live-demo--screenshots)  
+- [Tech Stack](#tech-stack)   
 - [Architecture](#architecture)  
 - [Setup & Installation](#setup--installation)  
 - [Usage](#usage)  
@@ -44,12 +43,6 @@ Ai-CodeReviewer simplifies and streamlines the code review process by leveraging
 | **Backend**  | Node.js, Express.js, dotenv (configuration), Google Generative AI (`@google/generative-ai`) |
 | **AI Integration** | Google Gemini API 2.0 (e.g., `gemini-2.0-flash` model)                                 |
 | **Utilities** | Markdown rendering, loading states, robust error handling                              |
-
----
-
-##  Live Demo / Screenshots 
-
-> Add links or markdown-embedded images showcasing the UI—for example, editor interface, review output, or loading state visuals.
 
 ---
 
