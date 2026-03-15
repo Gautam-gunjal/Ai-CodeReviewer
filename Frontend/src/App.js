@@ -20,7 +20,7 @@ function App() {
   const reviewCode = async () => {
     setLoading(true);   // start spinner
     try {
-      const result = await axios.post("http://localhost:5000/ai/get-review", { code });
+      const result = await axios.post("https://ai-codereviewer-nf8r.onrender.com/ai/get-review", { code });
       setReview(result.data);
     } catch (err) {
       setReview("⚠️ Error: Could not fetch review.");
