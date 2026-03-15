@@ -4,7 +4,7 @@ const aiRoutes=require("./routes/ai.routes");
 const cors=require("cors");
 
 app.use(cors({
-    origin:"https://ai-code-reviewer-beryl-nine.vercel.app/"
+    origin:"https://ai-code-reviewer-beryl-nine.vercel.app"
 }))
 app.use(express.json());
 app.use("/ai",aiRoutes);
