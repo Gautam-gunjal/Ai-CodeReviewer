@@ -1,140 +1,212 @@
-# Ai-CodeReviewer
+# AI-CodeReviewer
 
-**AI-Powered Code Review Tool** built with React.js, Express.js, Node.js, and powered by **Google Gemini API 2.0** — designed to provide fast, insightful, and context-aware code feedback as if from a senior developer.
-
----
-
-##  Table of Contents
-
-- [Overview](#overview)  
-- [Key Features](#key-features)  
-- [Tech Stack](#tech-stack)   
-- [Architecture](#architecture)  
-- [Setup & Installation](#setup--installation)  
-- [Usage](#usage)  
-- [Future Improvements](#future-improvements)  
-- [Why It Matters](#why-it-matters)  
-- [License](#license)  
+**AI-CodeReviewer** is an AI-powered code review tool that accepts source code from a user and returns a detailed, actionable review using Google's Gemini model. The project is a full‑stack application with a React frontend and an Express backend that calls the @google/generative-ai client.
 
 ---
 
-##  Overview
+## Table of Contents
 
-Ai-CodeReviewer simplifies and streamlines the code review process by leveraging Google’s advanced LLM, Gemini API 2.0. From individual developers preparing for interviews to teams maintaining code quality, this tool delivers high-quality, markdown-formatted feedback instantly.
+* [Overview](#overview)
+* [Demo / Quick Start](#demo--quick-start)
+* [Features](#features)
+* [Repository Structure](#repository-structure)
+* [Tech Stack](#tech-stack)
+* [Prerequisites](#prerequisites)
+* [Setup & Installation](#setup--installation)
 
----
-
-##  Key Features
-
--  **Instant AI-Powered Reviews** — Submit code snippets and receive detailed feedback styled like a senior engineer’s review.
--  **Real-Time Syntax Highlighting** — Clean, readable feedback through integrated Markdown and syntax-highlighting.
--  **Modern Frontend UI** — Built with React and code editor components for seamless user experience.
--  **Robust Backend** — Node.js + Express routes manage AI calls securely with environment-based configurations.
--  **Prompt Engineering** — Carefully crafted system prompts simulate a seasoned reviewer, focusing on performance, best practices, security, and readability.
--  **Loading & Error Handling UX** — Clear UI indicators during processing with graceful fallback on errors.
-
----
-
-##  Tech Stack
-
-| Layer      | Technologies & Libraries                                                                 |
-|------------|------------------------------------------------------------------------------------------|
-| **Frontend** | React.js, `react-simple-code-editor`, Prism.js (syntax highlighting), React-Markdown, Axios |
-| **Backend**  | Node.js, Express.js, dotenv (configuration), Google Generative AI (`@google/generative-ai`) |
-| **AI Integration** | Google Gemini API 2.0 (e.g., `gemini-2.0-flash` model)                                 |
-| **Utilities** | Markdown rendering, loading states, robust error handling                              |
+  * [Backend](#backend)
+  * [Frontend](#frontend)
+* [API](#api)
+* [Environment Variables](#environment-variables)
+* [Security & Privacy Notes](#security--privacy-notes)
+* [Development & Troubleshooting](#development--troubleshooting)
+* [Future Improvements](#future-improvements)
+* [Contributing](#contributing)
+* [License](#license)
 
 ---
 
-##  Architecture
+## Overview
 
-```text
-[ User Input (Code) ]
-          ↓
-   React Frontend
-     (Code Editor)
-          ↓
- Axios POST to
-  /ai/get-review
-          ↓
-Node.js + Express Server
-          ↓
-Send prompt & code to
- Google Gemini API 2.0
-          ↓
- Gemini returns feedback (Markdown)
-          ↓
-  Frontend renders using
-React-Markdown + Syntax Highlighting
+This project demonstrates how to integrate a generative AI model (Gemini) with a simple developer tool workflow. Users paste or write code in the React UI and request a review. The backend forwards the code to the Google Generative AI client, applies a strict `systemInstruction` that guides the model to act as an expert JavaScript code reviewer, and returns formatted markdown feedback to the frontend.
+
+## Demo / Quick Start
+
+1. Create a `.env` file in the `Backend/` folder with your Google API key (see **Environment Variables** below).
+2. Start the backend (port **5000**) and frontend (port **3000**).
+3. Open `http://localhost:3000` in your browser, paste code on the left, click **Review**, and view AI-generated feedback on the right.
+
+---
+
+## Features
+
+* Single-file paste-and-review workflow in the browser.
+* Uses `@google/generative-ai` with a pre-configured system prompt tuned for JavaScript code review.
+* Frontend renders the returned review as markdown (with syntax highlighting).
+* Simple REST API (Express) for review requests.
+
+---
+
+## Repository Structure 
+
+```
+AI-CodeReviewer/
+├─ Backend/
+│  ├─ server.js            # backend entry: starts Express on port 5000
+│  ├─ src/
+│  │  ├─ app.js           # express app configuration
+│  │  ├─ routes/ai.routes.js
+│  │  ├─ controllers/ai.controller.js
+│  │  └─ services/ai.service.js  # wrapper around @google/generative-ai
+│  └─ package.json
+├─ Frontend/
+│  ├─ src/App.js          # React UI, axios POST to backend
+│  └─ package.json
+└─ README.md (this file)
 ```
 
+---
 
+## Tech Stack
+
+* Frontend: React (react-scripts), react-simple-code-editor, react-markdown, rehype-highlight
+* Backend: Node.js, Express, @google/generative-ai
+* HTTP client: axios (frontend)
+
+---
+
+## Prerequisites
+
+* Node.js (recommended >= 18) and npm
+* A Google Generative AI API key (Gemini). The backend expects this in an environment variable described below.
+
+---
 
 ## Setup & Installation
 
-### 1. Clone the Repository
-```bash
-git clone https://github.com/Gautam-gunjal/Ai-CodeReviewer.git
-cd Ai-CodeReviewer
-```
+Follow these steps from the repository root.
 
-### 2. Backend Setup
+### Backend
+
+1. Open a terminal and `cd Backend`.
+2. Install dependencies:
+
 ```bash
-cd Backend
 npm install
 ```
 
-- Create a `.env` file containing:
+3. Create a `.env` file in `Backend/` with the following content:
+
 ```env
-GEMINI_API_KEY=your_google_gemini_api_key
+GOOGLE_GEMINI_KEY=your_google_gemini_api_key_here
 ```
 
-- Start the backend server:
+4. Start the backend server:
+
+* Option A: run directly with Node:
+
 ```bash
 node server.js
 ```
 
-### 3. Frontend Setup
+> Note: `Backend/package.json` in this repository does not define a `start` script. You can add one (recommended):
+
+```json
+"scripts": {
+  "start": "node server.js"
+}
+```
+
+Then run `npm start`.
+
+The backend listens on port `5000` by default.
+
+### Frontend
+
+1. Open a new terminal and `cd Frontend`.
+2. Install dependencies:
+
 ```bash
-cd Frontend
 npm install
+```
+
+3. Start the React dev server:
+
+```bash
 npm start
 ```
 
-- The app will run at [http://localhost:3000](http://localhost:3000) (or as configured).
-
-  ## Usage
-- Navigate to the frontend.  
-- Paste or write your code into the editor.  
-- Click **“Review Code”**.  
-- View AI-generated feedback below, formatted with syntax highlighting and markdown.  
+The frontend runs on port `3000` and sends review requests to `http://localhost:5000/ai/get-review`.
 
 ---
 
-## Future Improvements
-- **Support for multiple languages** (e.g., Python, Java, C++)  
-- **Review history & export** (e.g., save as PDF)  
-- **User authentication** (JWT, OAuth) for personalized experiences  
-- **Selectable review depth** (from quick suggestions to deep analysis)  
-- **Integration with GitHub/GitLab** (automate pre-PR reviews)  
+## API
+
+**POST** `/ai/get-review`
+
+* Content-Type: `application/json`
+* Body: `{ "code": "<source code string>" }`
+* Response: plain text / markdown containing the AI review.
+
+**Example using `curl`:**
+
+```bash
+curl -X POST http://localhost:5000/ai/get-review \
+  -H 'Content-Type: application/json' \
+  -d '{"code":"console.log(\"hello\")"}'
+```
 
 ---
 
-## Why It Matters
-This project showcases how AI can augment developer workflows, delivering rapid, quality feedback while saving time and encouraging best practices. It demonstrates:
+## Environment Variables
 
-- Practical **LLM integration** for real-world developer tools.  
-- Thoughtful **prompt engineering** to customize AI tone and output.  
-- Friendly, responsive UX design prioritizing usability and clarity.  
+* `GOOGLE_GEMINI_KEY` — required. The key used by `@google/generative-ai` in `Backend/src/services/ai.service.js`.
 
-Ideal for portfolios, interviews, and highlighting your ability to build AI-driven applications end-to-end.  
+Store this value in `Backend/.env` and **never** commit your `.env` to source control.
+
+---
+
+## Security & Privacy Notes
+
+* The Google API key is sensitive. Do not publish it or commit it into Git history.
+* The backend forwards any code you paste to the Google API. Do not paste private credentials, secrets, or PII in the code editor when using public/demo deployments.
+* Be mindful of model costs and rate limits — repeated large requests to Gemini may incur charges.
+
+---
+
+## Development & Troubleshooting
+
+* If the frontend shows `⚠️ Error: Could not fetch review.`, check that the backend is running on port `5000` and reachable from the frontend. If you run the frontend on a different host or port, update the axios URL in `Frontend/src/App.js`.
+* If you get authentication errors from the Generative AI client, verify `GOOGLE_GEMINI_KEY` is set correctly and has access to the required Google API product.
+* To change the model or system instruction, edit `Backend/src/services/ai.service.js` (the file that constructs the `GoogleGenerativeAI` client and sets `systemInstruction`).
+
+---
+
+## Future Improvements 
+
+* Add a `start` script in `Backend/package.json` and a single root-level npm script that starts both servers concurrently for development.
+* Add authentication if you want user-specific review history.
+* Persist review results to a database (MongoDB/Postgres) and expose a history UI.
+* Add rate-limiting and request-size validation on the backend.
+* Add CI checks and tests around request/response shapes.
+
+---
+
+## Contributing
+
+Contributions, issues and feature requests are welcome.
+
+1. Fork the repository
+2. Create a new branch (`git checkout -b feature/my-feature`)
+3. Commit your changes (`git commit -am 'Add feature'`)
+4. Push to the branch (`git push origin feature/my-feature`)
+5. Create a Pull Request
 
 ---
 
 ## License
-This project is open-sourced under the **MIT License**. Feel free to use, modify, and share!  
+
+Choose a license and add a `LICENSE` file (e.g., MIT). If you want, I can add one for you.
 
 ---
-
-Made with ❤️ using **React.js, Node.js, Express.js, and Google Gemini API 2.0**.
 
