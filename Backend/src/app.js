@@ -10,7 +10,7 @@ app.use(cors({
 
 app.use(express.json());
 app.use("/ai",aiRoutes);
-app.use('/health',healthRoute)
+app.use('/api',healthRoute)
 
 
 module.exports=app
